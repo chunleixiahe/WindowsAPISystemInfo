@@ -14,11 +14,13 @@ public:
 	std::wstring GetSystemVersion(); // 获取系统版本
 	std::wstring GetComputerName(); // 获取计算机名
 	int GetPhysicalMemorySize(); //获取物理内存大小
-	int GetCurrentMemoryUsePercent(); //获取当前用户内存使用率
+	int GetCurrentMemoryUsePercent(); //获取当前用户内存使用率1-100;
 	int GetDiskC_FreeSpace();   // 获取C盘总容量 GB/
 	int GetDiskC_UseableSpace();   // 获取C盘可用容量 GB/
 	int GetDiskSize(std::wstring disk_path); //获取某盘总容量
 	int GetDiskUseSize(std::wstring disk_path); //获取某盘可用容量
+	std::wstring GetCpuName(); // 获取CPU名称
+	std::wstring ViewRegisterValue(HKEY hKey_,std::wstring path_,std::wstring key_); // 查询注册表值
 
 private:
 	WindowVersion m_version; //windows版本
@@ -27,4 +29,5 @@ private:
 	int m_memory_size; //内存大小:单位/GB
 	int m_disk_c_size; //C盘大小:单位/GB
 	int m_disk_c_use_size; //C盘可用大小，单位/GB
+	std::wstring m_cpu_name; //获取CPU名称
 };

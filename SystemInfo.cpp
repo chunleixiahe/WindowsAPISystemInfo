@@ -141,11 +141,38 @@ int SystemInfo::GetDiskUseSize(std::wstring disk_path)
 	return 0;
 }
 
+std::wstring SystemInfo::GetCpuName()
+{
+	HKEY hKey;
+	LONG nRet;
+	nRet = ::RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0"), 0, KEY_READ, &hKey); 
+	std::wstring key_ = L"ProcessorNameString";
+	TCHAR CPUNAME[250];
+	DWORD dwType;
+	DWORD nLen = 0;
+	::RegQueryValueEx(hKey,key_.c_str(),0, &dwType, (LPBYTE)CPUNAME, &nLen);
+	m_cpu_name = CPUNAME;
+	return m_cpu_name;
+}
+
+std::wstring SystemInfo::ViewRegisterValue(HKEY hKey_,std::wstring path_,std::wstring key_)
+{
+	HKEY hKey;
+	LONG nRet;
+	nRet = ::RegOpenKeyEx(hKey_, path_.c_str(), 0, KEY_READ, &hKey); 
+	TCHAR RegisterValue[250];
+	DWORD dwType;
+	DWORD nLen = 0;
+	::RegQueryValueEx(hKey,key_.c_str(),0, &dwType, (LPBYTE)RegisterValue, &nLen);
+	std::wstring Key_Value = RegisterValue;
+	return Key_Value;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	SystemInfo sys;
 	std::wstring system_version_ = sys.GetSystemVersion();
-	sys.GetDiskC_FreeSpace();
+	sys.GetCpuName();
 	system("pause");
 	return 0;
 }
