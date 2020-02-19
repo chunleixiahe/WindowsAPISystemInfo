@@ -22,6 +22,7 @@ public:
 	std::wstring GetCpuName(); // 获取CPU名称
 	std::wstring ViewRegeditValue(HKEY hKey_,std::wstring path_,std::wstring key_); // 查询注册表值
 	bool WriteToRegedit(HKEY hKey_,std::wstring path_,std::wstring key_,std::wstring value_); //写入注册表，默认为写入字符串
+	bool GetScreenResolutionPower(int& cxScreen,int& cyScreen); //获取当前屏幕分辨率
 
 private:
 	WindowVersion m_version; //windows版本
@@ -31,4 +32,6 @@ private:
 	int m_disk_c_size; //C盘大小:单位/GB
 	int m_disk_c_use_size; //C盘可用大小，单位/GB
 	std::wstring m_cpu_name; //获取CPU名称
+	int m_x_screen; //屏幕分辨率x
+	int m_y_screen; //屏幕分辨率y
 };

@@ -152,6 +152,7 @@ std::wstring SystemInfo::GetCpuName()
 	DWORD nLen = 0;
 	::RegQueryValueEx(hKey,key_.c_str(),0, &dwType, (LPBYTE)CPUNAME, &nLen);
 	m_cpu_name = CPUNAME;
+	::RegCloseKey(hKey); // ÊÍ·Å¾ä±ú£¬·ÀÖ¹ÄÚ´æÐ¹Â©
 	return m_cpu_name;
 }
 
@@ -165,6 +166,7 @@ std::wstring SystemInfo::ViewRegeditValue(HKEY hKey_,std::wstring path_,std::wst
 	DWORD nLen = 0;
 	::RegQueryValueEx(hKey,key_.c_str(),0, &dwType, (LPBYTE)RegisterValue, &nLen);
 	std::wstring Key_Value = RegisterValue;
+	::RegCloseKey(hKey_);// ÊÍ·Å¾ä±ú£¬·ÀÖ¹ÄÚ´æÐ¹Â©
 	return Key_Value;
 }
 
@@ -191,10 +193,20 @@ bool SystemInfo::WriteToRegedit(HKEY hKey_,std::wstring path_,std::wstring key_,
 	return true;
 }
 
+bool SystemInfo::GetScreenResolutionPower(int& cxScreen,int& cyScreen)
+{
+	cxScreen = GetSystemMetrics (SM_CXSCREEN) ;  // wide
+	cyScreen = GetSystemMetrics (SM_CYSCREEN) ;  // high
+	m_x_screen = cxScreen;
+	m_y_screen = cyScreen;
+	return true;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	SystemInfo sys;
-	std::wstring system_version_ = sys.GetSystemVersion();
+	int xx,yy;
+	sys.GetScreenResolutionPower(xx,yy);
 	system("pause");
 	return 0;
 }
