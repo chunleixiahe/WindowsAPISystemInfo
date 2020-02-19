@@ -20,7 +20,8 @@ public:
 	int GetDiskSize(std::wstring disk_path); //获取某盘总容量
 	int GetDiskUseSize(std::wstring disk_path); //获取某盘可用容量
 	std::wstring GetCpuName(); // 获取CPU名称
-	std::wstring ViewRegisterValue(HKEY hKey_,std::wstring path_,std::wstring key_); // 查询注册表值
+	std::wstring ViewRegeditValue(HKEY hKey_,std::wstring path_,std::wstring key_); // 查询注册表值
+	bool WriteToRegedit(HKEY hKey_,std::wstring path_,std::wstring key_,std::wstring value_); //写入注册表，默认为写入字符串
 
 private:
 	WindowVersion m_version; //windows版本

@@ -155,7 +155,7 @@ std::wstring SystemInfo::GetCpuName()
 	return m_cpu_name;
 }
 
-std::wstring SystemInfo::ViewRegisterValue(HKEY hKey_,std::wstring path_,std::wstring key_)
+std::wstring SystemInfo::ViewRegeditValue(HKEY hKey_,std::wstring path_,std::wstring key_)
 {
 	HKEY hKey;
 	LONG nRet;
@@ -168,11 +168,33 @@ std::wstring SystemInfo::ViewRegisterValue(HKEY hKey_,std::wstring path_,std::ws
 	return Key_Value;
 }
 
+bool SystemInfo::WriteToRegedit(HKEY hKey_,std::wstring path_,std::wstring key_,std::wstring value_)
+{
+	HKEY hkey;
+	::RegCreateKeyExW(hKey_, 
+		path_.c_str(), 
+		0, 
+		NULL, 
+		REG_OPTION_NON_VOLATILE, 
+		KEY_WRITE, 
+		NULL, 
+		&hkey, 
+		NULL);
+	//
+	::RegSetValueExW(hkey, 
+		key_.c_str(), 
+		0, 
+		REG_SZ, 
+		reinterpret_cast<LPBYTE>(const_cast<wchar_t*>(value_.c_str())),
+		sizeof(std::wstring::value_type) * (value_.size() + 1));
+	::RegCloseKey(hkey);
+	return true;
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	SystemInfo sys;
 	std::wstring system_version_ = sys.GetSystemVersion();
-	sys.GetCpuName();
 	system("pause");
 	return 0;
 }
